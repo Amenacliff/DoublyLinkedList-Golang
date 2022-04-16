@@ -51,11 +51,19 @@ func (d *DoublyLinkedList) AddNodeToBack(data int) {
 
 }
 
-func (d *DoublyLinkedList) DisplayAllItemsInList() {
+func (d *DoublyLinkedList) DisplayAllItemsInListForward() {
 	currentNode := d.head
 	for currentNode != nil {
 		log.Println(currentNode.data)
 		currentNode = currentNode.next
+	}
+}
+
+func (d *DoublyLinkedList) DisplayAllItemsInListBackward() {
+	currentNode := d.tail
+	for currentNode != nil {
+		log.Println(currentNode.data)
+		currentNode = currentNode.prev
 	}
 }
 
@@ -70,5 +78,7 @@ func main() {
 	linkedList.AddNodeToFront(1)
 	linkedList.AddNodeToBack(0)
 	linkedList.AddNodeToBack(9)
-	linkedList.DisplayAllItemsInList()
+	linkedList.DisplayAllItemsInListForward()
+	log.Println(".....................")
+	linkedList.DisplayAllItemsInListBackward()
 }
