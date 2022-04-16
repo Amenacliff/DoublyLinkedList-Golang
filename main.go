@@ -35,6 +35,22 @@ func (d *DoublyLinkedList) AddNodeToFront(data int) {
 	d.length++
 }
 
+func (d *DoublyLinkedList) AddNodeToBack(data int) {
+	previousData := d.tail
+	newData := &Node{
+		data: data,
+	}
+	if d.head == nil {
+		d.head = newData
+		d.tail = newData
+	} else {
+		newData.prev = d.tail
+		previousData.next = newData
+		d.tail = newData
+	}
+
+}
+
 func (d *DoublyLinkedList) DisplayAllItemsInList() {
 	currentNode := d.head
 	for currentNode != nil {
@@ -52,5 +68,7 @@ func main() {
 	linkedList.AddNodeToFront(6)
 	linkedList.AddNodeToFront(2)
 	linkedList.AddNodeToFront(1)
+	linkedList.AddNodeToBack(0)
+	linkedList.AddNodeToBack(9)
 	linkedList.DisplayAllItemsInList()
 }
