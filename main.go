@@ -69,34 +69,12 @@ func (d *DoublyLinkedList) DisplayAllItemsInListBackward() {
 	}
 }
 
-func (d *DoublyLinkedList) DeleteNode(index int) {
-	if d.length == 0 {
+func (d *DoublyLinkedList) AddItemToListByIndex(index, data int) {
+	if d.length <= index {
+		log.Println("Index Is Greater than Length of the List, hence it does not exist")
 		return
 	}
 
-	currentNode := d.head
-
-	counter := 0
-
-	for counter != index {
-		currentNode = currentNode.next
-		counter++
-	}
-
-	log.Println(currentNode.next, d.tail)
-	if currentNode != d.tail {
-		previousNode := currentNode.prev
-		previousNode.next = currentNode.next
-	} else {
-		previousNode := currentNode.prev
-		previousNode.next = nil
-		d.tail = previousNode
-	}
-
-	d.length--
-}
-
-func (d *DoublyLinkedList) AddItemToListByIndex(index, data int) {
 	if d.length == 0 || index == 0 {
 		d.AddNodeToFront(data)
 	} else {
@@ -122,12 +100,12 @@ func (d *DoublyLinkedList) AddItemToListByIndex(index, data int) {
 			currentNode.prev = newNode
 
 		} else {
-			counter := 0
+			counter := d.length - 1
 			currentNode := d.tail
 
 			for counter != index {
 				currentNode = currentNode.prev
-				counter++
+				counter--
 			}
 
 			previousNode := currentNode.prev
@@ -144,6 +122,63 @@ func (d *DoublyLinkedList) AddItemToListByIndex(index, data int) {
 	}
 }
 
+func (d *DoublyLinkedList) DeleteItemFromListByIndex(index int) {
+	if d.length == 0 {
+		return
+	}
+
+	if d.length < index {
+		log.Panicf("Index Is Greater than Lenght of the List, hence it does not exist")
+		return
+	}
+
+	if d.length == 1 {
+		d.head = nil
+		d.tail = nil
+		d.length = 0
+		return
+	}
+
+	halfOfTheList := d.length / 2
+
+	if index < halfOfTheList {
+		counter := 0
+		currentNode := d.head
+
+		for counter != index {
+			currentNode = currentNode.next
+			counter++
+		}
+
+		log.Println(currentNode.data, "Node", counter)
+
+		previousNode := currentNode.prev
+		nextNode := currentNode.next
+		nextNode.prev = previousNode
+		previousNode.next = currentNode.next
+		currentNode.prev = previousNode
+	} else {
+		counter := d.length - 1
+		currentNode := d.tail
+
+		for counter != index {
+			currentNode = currentNode.prev
+			counter--
+		}
+
+		log.Println(currentNode.data, "NODE", counter)
+
+		previousNode := currentNode.prev
+		nextNode := currentNode.next
+		nextNode.prev = previousNode
+		previousNode.next = currentNode.next
+		currentNode.prev = previousNode
+	}
+
+	d.length--
+
+}
+
 func main() {
 	var linkedList = DoublyLinkedList{}
 	linkedList.InitializeList()
@@ -153,10 +188,11 @@ func main() {
 	linkedList.AddNodeToFront(6)
 	linkedList.AddNodeToFront(2)
 	linkedList.AddNodeToFront(1)
-	linkedList.AddItemToListByIndex(1, 8)
 	linkedList.AddNodeToBack(0)
 	linkedList.AddNodeToBack(9)
-	linkedList.DeleteNode(3)
+	linkedList.AddItemToListByIndex(7, 8)
+	linkedList.DeleteItemFromListByIndex(6)
+
 	linkedList.DisplayAllItemsInListForward()
 	log.Println(".....................")
 	linkedList.DisplayAllItemsInListBackward()
