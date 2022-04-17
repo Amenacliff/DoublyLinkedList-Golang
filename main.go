@@ -49,6 +49,8 @@ func (d *DoublyLinkedList) AddNodeToBack(data int) {
 		d.tail = newData
 	}
 
+	d.length++
+
 }
 
 func (d *DoublyLinkedList) DisplayAllItemsInListForward() {
@@ -91,6 +93,55 @@ func (d *DoublyLinkedList) DeleteNode(index int) {
 		d.tail = previousNode
 	}
 
+	d.length--
+}
+
+func (d *DoublyLinkedList) AddItemToListByIndex(index, data int) {
+	if d.length == 0 || index == 0 {
+		d.AddNodeToFront(data)
+	} else {
+		halfLengthOfList := d.length / 2
+
+		if index < halfLengthOfList {
+			counter := 0
+			currentNode := d.head
+
+			for counter != index {
+				currentNode = currentNode.next
+				counter++
+			}
+
+			previousNode := currentNode.prev
+			newNode := &Node{
+				data: data,
+			}
+
+			newNode.prev = previousNode
+			newNode.next = currentNode
+			previousNode.next = newNode
+			currentNode.prev = newNode
+
+		} else {
+			counter := 0
+			currentNode := d.tail
+
+			for counter != index {
+				currentNode = currentNode.prev
+				counter++
+			}
+
+			previousNode := currentNode.prev
+			newNode := &Node{
+				data: data,
+			}
+
+			newNode.prev = previousNode
+			newNode.next = currentNode
+			previousNode.next = newNode
+			currentNode.prev = newNode
+		}
+		d.length++
+	}
 }
 
 func main() {
@@ -102,11 +153,11 @@ func main() {
 	linkedList.AddNodeToFront(6)
 	linkedList.AddNodeToFront(2)
 	linkedList.AddNodeToFront(1)
+	linkedList.AddItemToListByIndex(1, 8)
 	linkedList.AddNodeToBack(0)
 	linkedList.AddNodeToBack(9)
 	linkedList.DeleteNode(3)
 	linkedList.DisplayAllItemsInListForward()
-	log.Println(linkedList.tail)
 	log.Println(".....................")
-	//linkedList.DisplayAllItemsInListBackward()
+	linkedList.DisplayAllItemsInListBackward()
 }
