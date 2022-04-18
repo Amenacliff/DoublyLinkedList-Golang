@@ -197,6 +197,24 @@ func (d *DoublyLinkedList) DeleteLastNode() {
 	d.length--
 }
 
+func (d *DoublyLinkedList) ReverseList() {
+	temp := &Node{}
+	tail := d.head
+
+	currentNode := d.head
+
+	for currentNode != nil {
+		temp = currentNode.prev
+		currentNode.prev = currentNode.next
+		currentNode.next = temp
+		currentNode = currentNode.prev
+	}
+	if temp != nil {
+		d.head = temp.prev
+		d.tail = tail
+	}
+}
+
 func main() {
 	var linkedList = DoublyLinkedList{}
 	linkedList.InitializeList()
@@ -209,8 +227,8 @@ func main() {
 	linkedList.AddNodeToBack(0)
 	linkedList.AddNodeToBack(9)
 	linkedList.AddItemToListByIndex(7, 8)
-	linkedList.DeleteItemFromListByIndex(6)
 	linkedList.DisplayAllItemsInListForward()
 	log.Println(".....................")
+	linkedList.ReverseList()
 	linkedList.DisplayAllItemsInListBackward()
 }
