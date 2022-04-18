@@ -150,8 +150,6 @@ func (d *DoublyLinkedList) DeleteItemFromListByIndex(index int) {
 			counter++
 		}
 
-		log.Println(currentNode.data, "Node", counter)
-
 		previousNode := currentNode.prev
 		nextNode := currentNode.next
 		nextNode.prev = previousNode
@@ -166,8 +164,6 @@ func (d *DoublyLinkedList) DeleteItemFromListByIndex(index int) {
 			counter--
 		}
 
-		log.Println(currentNode.data, "NODE", counter)
-
 		previousNode := currentNode.prev
 		nextNode := currentNode.next
 		nextNode.prev = previousNode
@@ -177,6 +173,28 @@ func (d *DoublyLinkedList) DeleteItemFromListByIndex(index int) {
 
 	d.length--
 
+}
+
+func (d *DoublyLinkedList) DeleteLastNode() {
+	lastNode := d.tail
+
+	if lastNode == nil {
+		return
+	}
+
+	if lastNode == d.head {
+		d.head = nil
+		d.tail = nil
+		d.length = 0
+	}
+
+	previousNode := lastNode.prev
+
+	previousNode.next = nil
+
+	d.tail = previousNode
+
+	d.length--
 }
 
 func main() {
@@ -192,7 +210,6 @@ func main() {
 	linkedList.AddNodeToBack(9)
 	linkedList.AddItemToListByIndex(7, 8)
 	linkedList.DeleteItemFromListByIndex(6)
-
 	linkedList.DisplayAllItemsInListForward()
 	log.Println(".....................")
 	linkedList.DisplayAllItemsInListBackward()
